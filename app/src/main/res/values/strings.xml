@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Pirate Places</string>
+    <string name="next_button">Next</string>
+    <string name="prev_button">Previous</string>
+    <string name="already_at_end">You are already on the last place</string>
+    <string name="already_at_start">You are already on the first place</string>
+    <string name="checkin_button">Check In!</string>
+    <string name="checked_in">Checked In</string>
+    <string name="not_checked_in">Not Checked In</string>
+    <string name="checked_in_message">You Checked In!</string>
+    <string name="place_name_label">Place Name</string>
+    <string name="place_name_hint">Enter the name of the Pirate Place here</string>
+    <string name="visited_with_hint">Click here to select your guest</string>
+    <string name="place_guests_label">Guest</string>
+    <string name="new_pirate_place">New Pirate Place</string>
+    <string name="place_details">Details</string>
+    <string name="place_photo_button_description">Take photo of place</string>
+    <string name="place_photo_no_image_description">
+        Place photo (not set)
+    </string>
+    <string name="camera_message">Clicked camera button</string>
+
+</resources>
