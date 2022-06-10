@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import java.io.File
 import java.util.*
 
 class PiratePlacesDetailViewModel: ViewModel() {
@@ -22,5 +23,9 @@ class PiratePlacesDetailViewModel: ViewModel() {
 
     fun savePiratePlace(place: PiratePlace) {
         piratePlacesRepository.updatePiratePlace(place)
+    }
+
+   fun getPhotoFile(place: PiratePlace): File {
+        return piratePlacesRepository.getPhotoFile(place)
     }
 }

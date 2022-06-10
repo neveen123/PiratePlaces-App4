@@ -13,7 +13,10 @@
     <string name="visited_with_hint">Click here to select your guest</string>
     <string name="place_guests_label">Guest</string>
     <string name="new_pirate_place">New Pirate Place</string>
+    <string name ="share_visit">Share Your Visit</string>
+    <string name="share_visit_mssg">I just visited %1$s with %2$s on %3$s at %4$s!</string>
     <string name="place_details">Details</string>
+    <string name="share_report_subject">Just visited a PiratePlace!</string>
     <string name="place_photo_button_description">Take photo of place</string>
     <string name="place_photo_no_image_description">
         Place photo (not set)

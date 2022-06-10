@@ -105,6 +105,15 @@
             android:layout_height="wrap_content"
             tools:text="11:45:00 am"/>
 
+        <Button
+            android:id="@+id/share_visit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="10sp"
+            android:orientation="vertical"
+            android:text="@string/share_visit"/>
+
     </LinearLayout>
 
 </LinearLayout>

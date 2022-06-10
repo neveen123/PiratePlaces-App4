@@ -10,4 +10,8 @@ data class PiratePlace(
     @PrimaryKey val id: UUID = UUID.randomUUID(),
     var name: String = "",
     var visitedWith: String = "",
-    var lastVisited: Date = Date()) : Serializable
+    var lastVisited: Date = Date())  : Serializable
+
+{val photoFileName
+    get() = "IMG_$id.jpg"}
+
