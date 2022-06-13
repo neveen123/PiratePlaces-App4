@@ -21,9 +21,9 @@
 
             <ImageView
                 android:id="@+id/place_photo"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:scaleType="centerInside"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
                 android:cropToPadding="true"
                 android:background="@android:color/darker_gray"
                 android:contentDescription="@string/place_photo_no_image_description"/>
@@ -51,7 +51,6 @@
 
         </LinearLayout>
     </LinearLayout>
-
 
     <TextView
         style="?android:listSeparatorTextViewStyle"
@@ -105,15 +104,17 @@
             android:layout_height="wrap_content"
             tools:text="11:45:00 am"/>
 
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
         <Button
             android:id="@+id/share_visit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_margin="10sp"
-            android:orientation="vertical"
             android:text="@string/share_visit"/>
-
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>

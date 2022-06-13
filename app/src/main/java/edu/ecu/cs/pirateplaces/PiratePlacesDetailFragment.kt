@@ -33,7 +33,7 @@ class PiratePlacesDetailFragment:
     Fragment(), DatePickerFragment.Callbacks, TimePickerFragment.Callbacks {
 
     private lateinit var place: PiratePlace
-    private lateinit var placeNameField : EditText
+    private lateinit var placeNameField: EditText
     private lateinit var guestsField: TextView
     private lateinit var dateButton: Button
     private lateinit var timeButton: Button
@@ -43,7 +43,7 @@ class PiratePlacesDetailFragment:
     private lateinit var photoFile: File
     private lateinit var photoUri: Uri
 
-    private val piratePlacesDetailViewModel : PiratePlacesDetailViewModel by lazy {
+    private val piratePlacesDetailViewModel: PiratePlacesDetailViewModel by lazy {
         ViewModelProvider(this).get(PiratePlacesDetailViewModel::class.java)
     }
 
@@ -66,7 +66,6 @@ class PiratePlacesDetailFragment:
         photoButton = view.findViewById(R.id.place_camera) as ImageButton
         photoView = view.findViewById(R.id.place_photo) as ImageView
         shareButton = view.findViewById(R.id.share_visit) as Button
-       // contactButton = view.findViewById(R.id.visited_with) as Button
 
         dateButton.setOnClickListener {
             DatePickerFragment.newInstance(place.lastVisited).apply {
@@ -80,7 +79,8 @@ class PiratePlacesDetailFragment:
                 putExtra(Intent.EXTRA_TEXT, getPiratePlaceReport())
                 putExtra(
                     Intent.EXTRA_SUBJECT,
-                    getString(R.string.share_report_subject))
+                    getString(R.string.share_report_subject)
+                )
             }.also { intent ->
                 val chooserIntent =
                     Intent.createChooser(intent, getString(R.string.share_visit))
@@ -106,29 +106,6 @@ class PiratePlacesDetailFragment:
             }
         }
 
-       photoButton.apply {
-            val packageManager: PackageManager = requireActivity().packageManager
-            val captureImage = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            val resolvedActivity: ResolveInfo? =
-                packageManager.resolveActivity(captureImage,
-                    PackageManager.MATCH_DEFAULT_ONLY)
-            if (resolvedActivity == null) {
-                isEnabled = false
-            }
-            setOnClickListener {
-                captureImage.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-                val cameraActivities: List<ResolveInfo> =
-                    packageManager.queryIntentActivities(captureImage,
-                        PackageManager.MATCH_DEFAULT_ONLY)
-                for (cameraActivity in cameraActivities) {
-                    requireActivity().grantUriPermission(
-                        cameraActivity.activityInfo.packageName,
-                        photoUri,
-                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-                }
-                startActivityForResult(captureImage, REQUEST_PHOTO)
-            }
-        }
 
         timeButton.setOnClickListener {
             TimePickerFragment.newInstance(place.lastVisited).apply {
@@ -149,12 +126,14 @@ class PiratePlacesDetailFragment:
 
         piratePlacesDetailViewModel.piratePlaceLiveData.observe(
             viewLifecycleOwner,
-            Observer {  piratePlace ->
+            Observer { piratePlace ->
                 piratePlace?.let {
                     this.place = piratePlace
                     photoFile = piratePlacesDetailViewModel.getPhotoFile(place)
-                    photoUri = FileProvider.getUriForFile(requireActivity(),"edu.ecu.cs.pirateplaces.fileprovider",
-                       photoFile)
+                    photoUri = FileProvider.getUriForFile(
+                        requireActivity(), "edu.ecu.cs.pirateplaces.fileprovider",
+                        photoFile
+                    )
                     updateUI()
                 }
             })
@@ -181,17 +160,50 @@ class PiratePlacesDetailFragment:
         }
 
         placeNameField.addTextChangedListener(placeNameWatcher)
+
+        photoButton.apply {
+            val packageManager: PackageManager = requireActivity().packageManager
+            val captureImage = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            val resolvedActivity: ResolveInfo? =
+                packageManager.resolveActivity(
+                    captureImage,
+                    PackageManager.MATCH_DEFAULT_ONLY
+                )
+            if (resolvedActivity == null) {
+                isEnabled = false
+            }
+            setOnClickListener {
+                captureImage.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+                val cameraActivities: List<ResolveInfo> =
+                    packageManager.queryIntentActivities(
+                        captureImage,
+                        PackageManager.MATCH_DEFAULT_ONLY
+                    )
+                for (cameraActivity in cameraActivities) {
+                    requireActivity().grantUriPermission(
+                        cameraActivity.activityInfo.packageName,
+                        photoUri,
+                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                    )
+                }
+                startActivityForResult(captureImage, REQUEST_PHOTO)
+            }
+        }
     }
 
     override fun onStop() {
         super.onStop()
         piratePlacesDetailViewModel.savePiratePlace(place)
     }
+
     override fun onDetach() {
         super.onDetach()
-        requireActivity().revokeUriPermission(photoUri,
-            Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+        requireActivity().revokeUriPermission(
+            photoUri,
+            Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+        )
     }
+
     override fun onDateSelected(date: Date) {
         place.lastVisited = date
         updateUI()
@@ -252,18 +264,29 @@ class PiratePlacesDetailFragment:
             }
             requestCode == REQUEST_PHOTO -> {
                 requireActivity().revokeUriPermission(
-                    photoUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-                updatePhotoView() }
+                    photoUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                )
+                updatePhotoView()
+            }
         }
     }
 
     private fun getPiratePlaceReport(): String {
 
-       val dateString = DateFormat.format(DATE_FORMAT, place.lastVisited).toString()
+        val dateString = DateFormat.format(DATE_FORMAT, place.lastVisited).toString()
         val visitedTime = DateFormat.getTimeFormat(context).format(place.lastVisited)
-        return getString(R.string.share_visit_mssg,place.name,place.visitedWith,dateString,visitedTime)
-    }
 
+        if (place.visitedWith.isBlank()) {
+            return getString(R.string.share_visit_mssg2,place.name, place.visitedWith,dateString,visitedTime)
+        }
+        else{return getString(
+            R.string.share_visit_mssg,
+            place.name,
+            place.visitedWith,
+            dateString,
+            visitedTime)
+        }
+    }
 
     companion object {
         fun newInstance(id: UUID) : PiratePlacesDetailFragment {
